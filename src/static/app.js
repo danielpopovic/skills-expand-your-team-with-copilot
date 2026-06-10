@@ -492,6 +492,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tempInput.value = shareUrl;
         document.body.appendChild(tempInput);
         tempInput.select();
+        // Keep deprecated API as a fallback for older browsers without navigator.clipboard support.
         document.execCommand("copy");
         document.body.removeChild(tempInput);
       }
