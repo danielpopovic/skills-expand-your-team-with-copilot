@@ -1,4 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Dark mode toggle
+  const darkModeToggle = document.getElementById("dark-mode-toggle");
+  const body = document.body;
+
+  function applyDarkMode(enabled) {
+    if (enabled) {
+      body.classList.add("dark-mode");
+      darkModeToggle.textContent = "☀️";
+      darkModeToggle.title = "Switch to light mode";
+    } else {
+      body.classList.remove("dark-mode");
+      darkModeToggle.textContent = "🌙";
+      darkModeToggle.title = "Switch to dark mode";
+    }
+  }
+
+  // Load saved preference
+  const savedDarkMode = localStorage.getItem("darkMode") === "true";
+  applyDarkMode(savedDarkMode);
+
+  darkModeToggle.addEventListener("click", () => {
+    const isDark = body.classList.contains("dark-mode");
+    applyDarkMode(!isDark);
+    localStorage.setItem("darkMode", !isDark);
+  });
+
   // DOM elements
   const activitiesList = document.getElementById("activities-list");
   const messageDiv = document.getElementById("message");
