@@ -615,11 +615,7 @@ document.addEventListener("DOMContentLoaded", () => {
             Share on WhatsApp
           </a>
           <a class="share-button" href="${emailLink}">Share by Email</a>
-          <button
-            class="share-button share-copy-button"
-            data-share-url="${shareUrl}"
-            data-activity-name="${name}"
-          >
+          <button class="share-button share-copy-button">
             Copy Link
           </button>
         </div>
@@ -644,8 +640,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const copyShareButton = activityCard.querySelector(".share-copy-button");
     copyShareButton.addEventListener("click", async (event) => {
-      const { shareUrl: selectedShareUrl, activityName } = event.currentTarget.dataset;
-      await copyShareLink(selectedShareUrl, activityName);
+      event.preventDefault();
+      await copyShareLink(shareUrl, name);
     });
 
     activitiesList.appendChild(activityCard);
