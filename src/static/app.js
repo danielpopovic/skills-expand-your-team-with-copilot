@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     community: { label: "Community", color: "#fff3e0", textColor: "#e65100" },
     technology: { label: "Technology", color: "#e8eaf6", textColor: "#3949ab" },
   };
+  const schoolName = "Mergington High School";
 
   // State for activities and filters
   let allActivities = {};
@@ -476,7 +477,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const shareUrl = `${window.location.origin}${window.location.pathname}?activity=${encodeURIComponent(
       name
     )}`;
-    const shareText = `Check out ${name} at Mergington High School! ${formatSchedule(
+    const shareText = `Check out ${name} at ${schoolName}! ${formatSchedule(
       details
     )}`;
     return { shareUrl, shareText };
@@ -611,11 +612,21 @@ document.addEventListener("DOMContentLoaded", () => {
             href="${whatsappLink}"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Share activity on WhatsApp (opens in new window)"
           >
             Share on WhatsApp
           </a>
-          <a class="share-button" href="${emailLink}">Share by Email</a>
-          <button class="share-button share-copy-button">
+          <a
+            class="share-button"
+            href="${emailLink}"
+            aria-label="Share activity by email"
+          >
+            Share by Email
+          </a>
+          <button
+            class="share-button share-copy-button"
+            aria-label="Copy activity share link"
+          >
             Copy Link
           </button>
         </div>
