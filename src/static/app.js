@@ -472,6 +472,36 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function getShareData(name, details) {
+    const shareUrl = `${window.location.origin}${window.location.pathname}?activity=${encodeURIComponent(
+      name
+    )}`;
+    const shareText = `Check out ${name} at Mergington High School! ${formatSchedule(
+      details
+    )}`;
+    return { shareUrl, shareText };
+  }
+
+  async function copyShareLink(shareUrl, activityName) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+      } else {
+        const tempInput = document.createElement("input");
+        tempInput.value = shareUrl;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+      }
+
+      showMessage(`Share link copied for ${activityName}.`, "success");
+    } catch (error) {
+      console.error("Error copying share link:", error);
+      showMessage("Couldn't copy the share link. Please try again.", "error");
+    }
+  }
+
   // Function to render a single activity card
   function renderActivityCard(name, details) {
     const activityCard = document.createElement("div");
@@ -498,6 +528,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Format the schedule using the new helper function
     const formattedSchedule = formatSchedule(details);
+    const { shareUrl, shareText } = getShareData(name, details);
+    const whatsappLink = `https://wa.me/?text=${encodeURIComponent(
+      `${shareText} ${shareUrl}`
+    )}`;
+    const emailLink = `mailto:?subject=${encodeURIComponent(
+      `Join me at ${name}`
+    )}&body=${encodeURIComponent(`${shareText}\n\n${shareUrl}`)}`;
 
     // Create activity tag
     const tagHtml = `
@@ -568,6 +605,24 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         `
         }
+        <div class="share-actions">
+          <a
+            class="share-button"
+            href="${whatsappLink}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Share on WhatsApp
+          </a>
+          <a class="share-button" href="${emailLink}">Share by Email</a>
+          <button
+            class="share-button share-copy-button"
+            data-share-url="${shareUrl}"
+            data-activity-name="${name}"
+          >
+            Copy Link
+          </button>
+        </div>
       </div>
     `;
 
@@ -586,6 +641,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    const copyShareButton = activityCard.querySelector(".share-copy-button");
+    copyShareButton.addEventListener("click", async (event) => {
+      const { shareUrl: selectedShareUrl, activityName } = event.currentTarget.dataset;
+      await copyShareLink(selectedShareUrl, activityName);
+    });
 
     activitiesList.appendChild(activityCard);
   }

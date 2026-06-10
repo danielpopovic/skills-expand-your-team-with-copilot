@@ -187,7 +187,29 @@ section h3 {
   margin-top: auto;
   padding-top: 10px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.share-button {
+  background-color: var(--primary-light);
+  color: var(--primary-text);
+  border: none;
+  border-radius: 16px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.share-button:hover {
+  background-color: var(--primary-dark);
 }
 
 /* Activity Tag */
